@@ -62,6 +62,6 @@ Now analyze this idea:
 )
 
 print("\n" + "=" * 50)
-print("STRATEGY 3 - CHAIN OF THOUGHT")
+print("STRATEGY 2 - FEW SHOT")
 print("=" * 50)
-print(response3.choices[0].message.content)
+print(response2.choices[0].message.content)
