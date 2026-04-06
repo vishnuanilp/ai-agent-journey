@@ -1,125 +1,94 @@
-from dotenv import load_dotenv
-import os
-from anthropic import Anthropic
 import anthropic
+from anthropic import Anthropic
 from pymongo import MongoClient
-import datetime
+from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
-client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-
-# Connect to MongoDB
+client = Anthropic()
 mongo_client = MongoClient("mongodb://localhost:27017/")
-db = mongo_client["ai_agent_db"]
-collection = db["agent_results"]
+db = mongo_client["week2_agents"]
+collection = db["pipeline_results"]
+collection.delete_many({})
 
-print("MongoDB connected!")
+def call_claude(system, prompt, step_name):
+    try:
+        response = client.messages.create(
+            model="claude-sonnet-4-20250514",
+            max_tokens=1024,
+            system=system,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        print(f"== {step_name} ==")
+        print(response.content[0].text)
+        return response.content[0].text
+    except Exception as e:
+        print(f"{step_name} failed: {e}")
+        return None
 
-# Save a document to MongoDB
-def save_result(topic, step, content):
-    document = {
+def save_to_mongo(step_name, topic, result):
+    doc = {
+        "step": step_name,
         "topic": topic,
-        "step": step,
-        "content": content,
-        "timestamp": datetime.datetime.now()
+        "result": result,
+        "timestamp": datetime.now().isoformat()
     }
-    result = collection.insert_one(document)
-    print(f"Saved! ID: {result.inserted_id}")
-    return result.inserted_id
+    collection.insert_one(doc)
+    print(f"Saved {step_name} to MongoDB!")
 
-# Read all documents
-def get_all_results():
-    results = collection.find()
-    for doc in results:
-        print(f"\nTopic: {doc['topic']}")
-        print(f"Step: {doc['step']}")
-        print(f"Time: {doc['timestamp']}")
+topic = "How AI is changing small businesses in 2025"
 
-# Test saving
-save_result(
-    topic="AI agent for shops",
-    step="research",
-    content="Tier 2 cities have 150M consumers"
+result1 = call_claude(
+    "You are a research assistant. Find key facts only.",
+    f"""<task>Research key facts about this topic</task>
+    <topic>{topic}</topic>
+    <rules>Return exactly 5 key facts</rules>
+    <format>A numbered list of 5 facts</format>""",
+    "Step 1: Research"
 )
+if result1:
+    save_to_mongo("research", topic, result1)
 
-save_result(
-    topic="AI agent for shops",
-    step="article",
-    content="Full article about AI for shops..."
-)
+result2 = None
+if result1:
+    result2 = call_claude(
+        "You are an outline specialist.",
+        f"""<task>Outline a report based on these facts</task>
+        <facts>{result1}</facts>
+        <rules>Introduction, 3 main sections, conclusion</rules>
+        <format>An outline with headings and bullet points</format>""",
+        "Step 2: Outline"
+    )
+    if result2:
+        save_to_mongo("outline", topic, result2)
 
-print("\n--- ALL SAVED RESULTS ---")
-get_all_results()
+result3 = None
+if result2:
+    result3 = call_claude(
+        "You are a professional blog writer.",
+        f"""<task>Write a report based on this outline</task>
+        <outline>{result2}</outline>
+        <rules>Clear, engaging style. 2-3 sentences per point.</rules>
+        <format>A well-written report</format>""",
+        "Step 3: Write"
+    )
+    if result3:
+        save_to_mongo("write", topic, result3)
 
-# Connect prompt chain to MongoDB
-def run_pipeline_with_mongodb(topic):
-    print(f"\n{'='*50}")
-    print(f"Pipeline starting for: {topic}")
-    print(f"{'='*50}")
+result4 = None
+if result3:
+    result4 = call_claude(
+        "You are a professional editor.",
+        f"""<task>Edit this report for clarity and style</task>
+        <report>{result3}</report>
+        <rules>Fix grammar, improve flow, make engaging</rules>
+        <format>A polished, final version</format>""",
+        "Step 4: Edit"
+    )
+    if result4:
+        save_to_mongo("edit", topic, result4)
 
-    # Step 1 - Research
-    print("\n🔍 Step 1: Researching...")
-    research_prompt = f"""
-<task>Research this topic and extract key facts</task>
-<topic>{topic}</topic>
-<rules>
-- Find exactly 5 key facts
-- Each fact must be specific and useful
-- Keep each fact to one sentence
-</rules>
-<format>
-Fact 1:
-Fact 2:
-Fact 3:
-Fact 4:
-Fact 5:
-</format>
-"""
-    try:
-        research_response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=500,
-            messages=[{"role": "user", "content": research_prompt}]
-        )
-        research = research_response.content[0].text
-        save_result(topic, "research", research)
-        print("✅ Research saved to MongoDB!")
-
-    except Exception as e:
-        print(f"❌ Research failed: {e}")
-        return
-
-    # Step 2 - Article
-    print("\n✍️  Step 2: Writing article...")
-    article_prompt = f"""
-<task>Write a short article based on these facts</task>
-<topic>{topic}</topic>
-<research>{research}</research>
-<rules>
-- Write exactly 2 paragraphs
-- Each paragraph maximum 3 sentences
-- Professional but easy to read
-- End with one actionable takeaway
-</rules>
-"""
-    try:
-        article_response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=500,
-            messages=[{"role": "user", "content": article_prompt}]
-        )
-        article = article_response.content[0].text
-        save_result(topic, "article", article)
-        print("✅ Article saved to MongoDB!")
-
-    except Exception as e:
-        print(f"❌ Article failed: {e}")
-        return
-
-    print(f"\n{'='*50}")
-    print("FINAL ARTICLE:")
-    print(f"{'='*50}")
-    print(article)
-
-# Run it!
-run_pipeline_with_mongodb("AI agent for tier 2 shop owners")
+print("\n== All saved results ==")
+for doc in collection.find():
+    print(f"{doc['step']} - {doc['timestamp']}")
+    
