@@ -1,0 +1,46 @@
+﻿{
+  "v4_with_confidence": {
+    "date_tested": "2026-06-19",
+    "model": "claude-haiku-4-5",
+    "temperature": 0,
+    "test_set": "test_inputs.json",
+    "score": "35/42",
+    "accuracy_pct": 83.3,
+    "status": "deprecated",
+    "changes": "Added confidence + reasoning fields to schema as a routing signal."
+  },
+  "v4b_no_confidence": {
+    "date_tested": "2026-06-19",
+    "model": "claude-haiku-4-5",
+    "temperature": 0,
+    "test_set": "test_inputs.json",
+    "score": "39/42",
+    "accuracy_pct": 92.9,
+    "status": "champion",
+    "changes": "Removed confidence + reasoning fields from v4. Result: +9.6% accuracy."
+  },
+  "candidate_xml_2026-06-20": {
+    "date_tested": "2026-06-20",
+    "model": "claude-haiku-4-5",
+    "temperature": 0,
+    "test_set": "test_inputs.json",
+    "score": "39/42",
+    "accuracy_pct": 92.9,
+    "status": "near_miss",
+    "changes": "XML-tagged variant of v4b. Tied baseline; v4b stays champion (Occam's razor)."
+  },
+  "optimizer_run_2026-06-20": {
+    "date_run": "2026-06-20",
+    "starting_prompt": "v4b_no_confidence",
+    "strategies_tested": ["cot", "fewshot", "role", "xml", "meta"],
+    "results": {
+      "cot": "38/42",
+      "fewshot": "39/42",
+      "role": "37/42",
+      "xml": "39/42",
+      "meta": "38/42"
+    },
+    "verdict": "No candidate beats v4b; v4b retains champion status.",
+    "lesson": "Optimizing an already-strong prompt yields diminishing or negative returns. Save the optimizer for failing prompts."
+  }
+}

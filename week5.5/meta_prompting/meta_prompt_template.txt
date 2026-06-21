@@ -1,0 +1,42 @@
+@'
+I have a prompt I'd like you to improve. It runs in production as part of a Family Bill Tracker.
+
+CONTEXT:
+- The prompt classifies family chat messages into 4 actions: new_bill, payment_claim, confirm, ignore.
+- It also extracts fields: item, amount, due_date, paid_by.
+- It runs on Claude Haiku 4.5 with temperature 0 (deterministic extraction).
+- Output must be RAW JSON with no markdown fences, no backticks, no explanation, no preamble.
+
+THE CURRENT PROMPT:
+"""
+{ORIGINAL_PROMPT}
+"""
+
+WHAT'S WRONG WITH IT (observed on real test inputs):
+
+The prompt is functionally accurate now — classification, date parsing, fuzzy amounts, and confirm logic all work correctly. There is one remaining flaw:
+
+1. MARKDOWN FENCE LEAK — Haiku wraps roughly half of its responses in ```json ... ``` markdown code fences, even though the prompt says "no markdown, no backticks, no explanation" at the top. The instruction is being forgotten because it appears early, then 5 long RULES sections push it out of Haiku's working attention by the time it generates output.
+
+WHAT BETTER LOOKS LIKE:
+
+1. Keep the existing "no markdown, no backticks" instruction at the top.
+
+2. Add a SECOND identical instruction at the very BOTTOM of the prompt, immediately before Haiku generates its response. Phrase it as a final reminder, for example: "FINAL REMINDER: Output ONLY the raw JSON object. Do NOT wrap it in ```json or ``` fences. Do NOT add any explanation, preamble, or commentary. Start your response with { and end with }."
+
+3. Add one concrete example contrast in the examples section showing:
+   - WRONG (do not do this): ```json {"action": "ignore", ...} ```
+   - RIGHT (do this): {"action": "ignore", ...}
+
+4. Do NOT change any of the existing CRITICAL RULES (RULE 1 through RULE 5). They are working correctly.
+
+5. Do NOT change any of the existing examples. They are working correctly. Only ADD the new contrast example for output format.
+
+6. Keep the JSON output shape identical (same keys: action, item, amount, due_date, paid_by).
+
+OUTPUT FORMAT:
+Return ONLY the improved prompt — the full new prompt text, ready to drop into a file.
+Do NOT include explanation, preamble, or markdown code fences around it.
+Do NOT include any "here is the improved prompt" intro line.
+Start directly with the prompt text.
+'@ | Out-File -FilePath "meta_prompt_template.txt" -Encoding utf8

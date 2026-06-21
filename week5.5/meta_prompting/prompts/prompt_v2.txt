@@ -1,0 +1,63 @@
+You are parsing family chat messages about household bills.
+Classify the message into one of 4 actions and extract relevant fields.
+Return ONLY a JSON object, no markdown, no backticks, no explanation.
+
+Message: "{MESSAGE}"
+
+Actions:
+1. "new_bill" - Someone is adding a NEW bill that has not been paid yet (includes an amount, and does NOT start with "paid" or "I paid")
+2. "payment_claim" - Someone is claiming they PAID a bill (starts with "paid" or "I paid", with or without an amount)
+3. "confirm" - Someone is confirming another person's payment claim
+4. "ignore" - Casual chat, not bill-related
+
+CRITICAL RULES:
+
+RULE 1 — PAID vs NEW BILL (highest priority):
+- If the message starts with "paid" or "I paid" (or close variants like "i've paid", "i have paid"), classify as payment_claim regardless of whether an amount is present.
+- Only classify as new_bill when "paid" is NOT present and the message contains an item AND a specific amount.
+- Examples: "paid 80 for electricity" → payment_claim. "paid the rent 500" → payment_claim. "electricity 80" → new_bill.
+
+RULE 2 — CONFIRM (strict list only):
+- Only classify as confirm if the message matches one of these patterns exactly or very closely: "yes", "confirmed", "yes confirmed", "yes <name> paid it", "yes <name> paid", "<name> confirmed".
+- Do NOT classify as confirm: "ok", "sure", "k", "fine", "alright", "sounds good", or any other casual acknowledgement.
+- When in doubt between confirm and ignore, choose ignore.
+
+RULE 3 — DATE PARSING:
+- Today's date is 2026-06-17 (a Wednesday).
+- If the message contains a day name (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday), "tomorrow", "today", "this weekend", or "next <day>", parse it into a YYYY-MM-DD date.
+- "today" → 2026-06-17. "tomorrow" → 2026-06-18. "this weekend" → 2026-06-20 (Saturday).
+- For a bare day name (e.g. "Friday"), use the next upcoming occurrence of that day from today. If today is Wednesday 2026-06-17, then "Friday" → 2026-06-20, "Monday" → 2026-06-22, "next Friday" → 2026-06-26 (the Friday of the following week).
+- If the date reference is ambiguous or unparseable, return null.
+
+RULE 4 — FUZZY AMOUNTS:
+- Only extract an amount when it is stated as a single specific number (e.g. "80", "25.50", "120").
+- If the amount is hedged or vague — using words like "around", "maybe", "roughly", "about", "approximately", "or", "ish" — return amount: null.
+- Examples: "electricity around 80 or 90" → amount: null. "maybe 20 for coffee" → amount: null. "electricity 80" → amount: 80.
+
+RULE 5 — PAID_BY FIELD:
+- Extract paid_by only when a specific name is mentioned as the person who paid (e.g. "yes Dad paid it" → paid_by: "Dad").
+- For payment_claim messages where the sender says "I paid", leave paid_by as null (the sender's identity is tracked separately).
+- Names should be returned as provided in the message (preserve capitalisation).
+
+Return JSON format:
+{"action": "<one of: new_bill, payment_claim, confirm, ignore>", "item": "<short lowercase or null>", "amount": <number or null>, "due_date": "<YYYY-MM-DD or null>", "paid_by": "<name or null>"}
+
+Examples:
+"electricity 80" -> {"action": "new_bill", "item": "electricity", "amount": 80, "due_date": null, "paid_by": null}
+"paid 25 for pizza" -> {"action": "payment_claim", "item": "pizza", "amount": 25, "due_date": null, "paid_by": null}
+"electricity bill 80 due Friday" -> {"action": "new_bill", "item": "electricity", "amount": 80, "due_date": "2026-06-19", "paid_by": null}
+"paid electricity" -> {"action": "payment_claim", "item": "electricity", "amount": null, "due_date": null, "paid_by": null}
+"paid water" -> {"action": "payment_claim", "item": "water", "amount": null, "due_date": null, "paid_by": null}
+"I paid the internet" -> {"action": "payment_claim", "item": "internet", "amount": null, "due_date": null, "paid_by": null}
+"paid the rent" -> {"action": "payment_claim", "item": "rent", "amount": null, "due_date": null, "paid_by": null}
+"yes" -> {"action": "confirm", "item": null, "amount": null, "due_date": null, "paid_by": null}
+"yes confirmed" -> {"action": "confirm", "item": null, "amount": null, "due_date": null, "paid_by": null}
+"yes Dad paid it" -> {"action": "confirm", "item": null, "amount": null, "due_date": null, "paid_by": "Dad"}
+"hello whats for dinner" -> {"action": "ignore", "item": null, "amount": null, "due_date": null, "paid_by": null}
+"paid the electricity 80" -> {"action": "payment_claim", "item": "electricity", "amount": 80, "due_date": null, "paid_by": null}
+"paid rent 500" -> {"action": "payment_claim", "item": "rent", "amount": 500, "due_date": null, "paid_by": null}
+"internet bill 60 due next Monday" -> {"action": "new_bill", "item": "internet", "amount": 60, "due_date": "2026-06-22", "paid_by": null}
+"gas bill due tomorrow" -> {"action": "new_bill", "item": "gas", "amount": null, "due_date": "2026-06-18", "paid_by": null}
+"electricity around 80 or 90" -> {"action": "new_bill", "item": "electricity", "amount": null, "due_date": null, "paid_by": null}
+"ok" -> {"action": "ignore", "item": null, "amount": null, "due_date": null, "paid_by": null}
+"sure" -> {"action": "ignore", "item": null, "amount": null, "due_date": null, "paid_by": null}

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "message": "paid wifi bill 500",
+    "expected": {"message_type": "payment_claim", "bill_name": "wifi", "amount": 500}
+  },
+  {
+    "id": 2,
+    "message": "electricity bill came, 1200 rupees, due next week",
+    "expected": {"message_type": "bill_announcement", "bill_name": "electricity", "amount": 1200}
+  },
+  {
+    "id": 3,
+    "message": "I paid the gas bill, 800",
+    "expected": {"message_type": "payment_claim", "bill_name": "gas", "amount": 800}
+  },
+  {
+    "id": 4,
+    "message": "internet bill 999 due 25th",
+    "expected": {"message_type": "bill_announcement", "bill_name": "internet", "amount": 999}
+  },
+  {
+    "id": 5,
+    "message": "confirmed, mom paid the electricity",
+    "expected": {"message_type": "confirm", "bill_name": "electricity"}
+  },
+  {
+    "id": 6,
+    "message": "elec 1500",
+    "expected": {"message_type": "bill_announcement", "bill_name": "electricity", "amount": 1500}
+  },
+  {
+    "id": 7,
+    "message": "wifi done 600",
+    "expected": {"message_type": "payment_claim", "bill_name": "wifi", "amount": 600}
+  },
+  {
+    "id": 8,
+    "message": "got the water bill today 350rs",
+    "expected": {"message_type": "bill_announcement", "bill_name": "water", "amount": 350}
+  },
+  {
+    "id": 9,
+    "message": "yes that's right, dad cleared it",
+    "expected": {"message_type": "confirm"}
+  },
+  {
+    "id": 10,
+    "message": "gas refill 1100, I'll pay tomorrow",
+    "expected": {"message_type": "bill_announcement", "bill_name": "gas", "amount": 1100}
+  },
+  {
+    "id": 11,
+    "message": "electricity 800 ok",
+    "expected": {"message_type": "ambiguous"}
+  },
+  {
+    "id": 12,
+    "message": "ok",
+    "expected": {"message_type": "ambiguous"}
+  },
+  {
+    "id": 13,
+    "message": "1200",
+    "expected": {"message_type": "ambiguous"}
+  },
+  {
+    "id": 14,
+    "message": "wifi",
+    "expected": {"message_type": "ambiguous"}
+  },
+  {
+    "id": 15,
+    "message": "I think we already paid that one no?",
+    "expected": {"message_type": "ambiguous"}
+  },
+  {
+    "id": 16,
+    "message": "yes confirmed wifi paid",
+    "expected": {"message_type": "confirm", "bill_name": "wifi"}
+  },
+  {
+    "id": 17,
+    "message": "new electricity bill 2200, due 30th",
+    "expected": {"message_type": "bill_announcement", "bill_name": "electricity", "amount": 2200}
+  },
+  {
+    "id": 18,
+    "message": "I cleared the internet 750",
+    "expected": {"message_type": "payment_claim", "bill_name": "internet", "amount": 750}
+  },
+  {
+    "id": 19,
+    "message": "water bill",
+    "expected": {"message_type": "ambiguous"}
+  },
+  {
+    "id": 20,
+    "message": "paid",
+    "expected": {"message_type": "ambiguous"}
+  }
+]

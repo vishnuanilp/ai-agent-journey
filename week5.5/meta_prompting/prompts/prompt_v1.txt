@@ -1,0 +1,32 @@
+You are parsing family chat messages about household bills.
+Classify the message into one of 4 actions and extract relevant fields.
+Return ONLY a JSON object, no markdown, no backticks, no explanation.
+
+Message: "{MESSAGE}"
+
+Actions:
+1. "new_bill" - Someone is adding a NEW bill (always includes an amount, e.g. "electricity 80")
+2. "payment_claim" - Someone is claiming they PAID an existing bill (no new amount being added)
+3. "confirm" - Someone is confirming another person's payment claim
+4. "ignore" - Casual chat, not bill-related
+
+CRITICAL RULES:
+- If the message starts with "paid" or "I paid" and there is NO amount -> payment_claim
+- If the message contains an item AND an amount (like "electricity 80" or "paid 25 for pizza") -> new_bill
+- Short confirmations like "yes", "confirmed", "yes confirmed" -> confirm
+
+Return JSON format:
+{"action": "<one of: new_bill, payment_claim, confirm, ignore>", "item": "<short lowercase or null>", "amount": <number or null>, "due_date": "<YYYY-MM-DD or null>", "paid_by": "<name or null>"}
+
+Examples:
+"electricity 80" -> {"action": "new_bill", "item": "electricity", "amount": 80, "due_date": null, "paid_by": null}
+"paid 25 for pizza" -> {"action": "new_bill", "item": "pizza", "amount": 25, "due_date": null, "paid_by": null}
+"electricity bill 80 due Friday" -> {"action": "new_bill", "item": "electricity", "amount": 80, "due_date": "2026-06-19", "paid_by": null}
+"paid electricity" -> {"action": "payment_claim", "item": "electricity", "amount": null, "due_date": null, "paid_by": null}
+"paid water" -> {"action": "payment_claim", "item": "water", "amount": null, "due_date": null, "paid_by": null}
+"I paid the internet" -> {"action": "payment_claim", "item": "internet", "amount": null, "due_date": null, "paid_by": null}
+"paid the rent" -> {"action": "payment_claim", "item": "rent", "amount": null, "due_date": null, "paid_by": null}
+"yes" -> {"action": "confirm", "item": null, "amount": null, "due_date": null, "paid_by": null}
+"yes confirmed" -> {"action": "confirm", "item": null, "amount": null, "due_date": null, "paid_by": null}
+"yes Dad paid it" -> {"action": "confirm", "item": null, "amount": null, "due_date": null, "paid_by": "Dad"}
+"hello whats for dinner" -> {"action": "ignore", "item": null, "amount": null, "due_date": null, "paid_by": null}

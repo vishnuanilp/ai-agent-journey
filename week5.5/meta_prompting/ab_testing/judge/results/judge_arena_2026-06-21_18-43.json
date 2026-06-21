@@ -1,0 +1,464 @@
+{
+  "run_id": "judge_arena_2026-06-21_18-43",
+  "judge_model": "claude-sonnet-4-6",
+  "candidate_model": "claude-haiku-4-5",
+  "temperature": 0,
+  "test_message_count": 20,
+  "candidates": {
+    "v4b_no_confidence": {
+      "total": 217,
+      "max_possible": 300,
+      "per_message": [
+        {
+          "message": "paid wifi bill 500",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"wifi\",\n  \"amount\": 500,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are accurate and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "electricity bill came, 1200 rupees, due next week",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 1200,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The extracted fields are mostly accurate but the output is wrapped in markdown code fences and is missing the due date field ('due next week') which was explicitly mentioned in the message."
+          },
+          "total": 10
+        },
+        {
+          "message": "I paid the gas bill, 800",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"gas bill\",\n  \"amount\": 800,\n  \"currency\": null,\n  \"payer\": \"I\"\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are all accurate and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "internet bill 999 due 25th",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"internet\",\n  \"amount\": 999,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The extracted values for bill name and amount are correct but the due date (25th) is missing, and the output is wrapped in markdown code fences which violates clean JSON format requirements."
+          },
+          "total": 10
+        },
+        {
+          "message": "confirmed, mom paid the electricity",
+          "output": "```json\n{\n  \"message_type\": \"confirm\",\n  \"bill_name\": \"electricity\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": \"mom\"\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are all correct and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "elec 1500",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 1500,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 4,
+            "format": 3,
+            "reasoning": "The extracted fields are mostly correct and relevant to the electricity bill message, but the output is wrapped in markdown code fences which reduces format score."
+          },
+          "total": 11
+        },
+        {
+          "message": "wifi done 600",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"wifi\",\n  \"amount\": 600,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are accurate and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "got the water bill today 350rs",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"water bill\",\n  \"amount\": 350,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "All extracted values are correct and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "yes that's right, dad cleared it",
+          "output": "```json\n{\n  \"message_type\": \"confirm\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": \"dad\"\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The payer 'dad' is correctly extracted and message_type as 'confirm' is reasonable, but the output is wrapped in markdown fences and lacks context about what was 'cleared' (likely a bill payment confirmation), making relevance partial."
+          },
+          "total": 10
+        },
+        {
+          "message": "gas refill 1100, I'll pay tomorrow",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"gas refill\",\n  \"amount\": 1100,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The output captures the bill name and amount correctly but misses the deferred payment intent ('pay tomorrow') and the payer context, and the JSON is wrapped in markdown code fences which violates format requirements."
+          },
+          "total": 9
+        },
+        {
+          "message": "electricity 800 ok",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 800,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The bill name and amount are correctly extracted, but the output includes a markdown code fence and the 'message_type' field as 'ambiguous' is questionable when 'ok' likely confirms a payment, making relevance partial."
+          },
+          "total": 10
+        },
+        {
+          "message": "ok",
+          "output": "```json\n{\n  \"message_type\": \"noise\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The output correctly identifies the message as noise with null fields, but is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "1200",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": null,\n  \"amount\": 1200,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The numeric value 1200 is correctly captured, but the output is wrapped in markdown code fences and the message is too ambiguous to fully evaluate accuracy or relevance of the structured fields."
+          },
+          "total": 9
+        },
+        {
+          "message": "wifi",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": \"wifi\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The output attempts to parse 'wifi' as a bill entry which is a reasonable interpretation, but the JSON is wrapped in markdown code fences which violates format requirements, and the single-word input is too ambiguous to confidently assign fields."
+          },
+          "total": 9
+        },
+        {
+          "message": "I think we already paid that one no?",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are correctly identified as null/ambiguous given the vague message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "yes confirmed wifi paid",
+          "output": "```json\n{\n  \"message_type\": \"confirm\",\n  \"bill_name\": \"wifi\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 4,
+            "format": 3,
+            "reasoning": "The key fields (message_type as 'confirm' and bill_name as 'wifi') are correctly extracted, but the output is wrapped in markdown code fences which reduces format score."
+          },
+          "total": 11
+        },
+        {
+          "message": "new electricity bill 2200, due 30th",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 2200,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 2,
+            "reasoning": "The output captures the bill type and amount correctly but omits the due date (30th), assumes INR currency without basis, and is wrapped in markdown code fences making it invalid per format rules."
+          },
+          "total": 8
+        },
+        {
+          "message": "I cleared the internet 750",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"internet\",\n  \"amount\": 750,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 4,
+            "format": 3,
+            "reasoning": "The key fields (bill_name, amount) are correctly extracted, but the output is wrapped in markdown code fences which reduces format score, and 'message_type' as 'payment_claim' is a reasonable interpretation though 'cleared' typically implies payment confirmation."
+          },
+          "total": 11
+        },
+        {
+          "message": "water bill",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": \"water\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The output partially fits the vague input and extracts a bill name correctly, but the JSON is wrapped in markdown code fences and the field structure seems assumed rather than requested, making accuracy and format both middling."
+          },
+          "total": 9
+        },
+        {
+          "message": "paid",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The output attempts to parse 'paid' as a payment message with reasonable null fields, but the markdown code fence violates format requirements, and classifying it as 'ambiguous' rather than something more specific is debatable."
+          },
+          "total": 9
+        }
+      ]
+    },
+    "candidate_xml": {
+      "total": 221,
+      "max_possible": 300,
+      "per_message": [
+        {
+          "message": "paid wifi bill 500",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"wifi\",\n  \"amount\": 500,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are accurate and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "electricity bill came, 1200 rupees, due next week",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 1200,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The extracted fields are mostly accurate but the output is missing the due date information ('due next week'), has markdown code fences, and lacks a due_date field that was clearly implied by the message."
+          },
+          "total": 10
+        },
+        {
+          "message": "I paid the gas bill, 800",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"gas\",\n  \"amount\": 800,\n  \"currency\": null,\n  \"payer\": \"I\"\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are all correct and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "internet bill 999 due 25th",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"internet\",\n  \"amount\": 999,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The extracted values for bill name and amount are correct but the due date (25th) is missing from the output, and the JSON is wrapped in markdown code fences which violates format requirements."
+          },
+          "total": 10
+        },
+        {
+          "message": "confirmed, mom paid the electricity",
+          "output": "```json\n{\n  \"message_type\": \"confirm\",\n  \"bill_name\": \"electricity\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": \"mom\"\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are all correct and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "elec 1500",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 1500,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 4,
+            "format": 3,
+            "reasoning": "The extracted fields are mostly correct and relevant to the input, but the output is wrapped in markdown code fences which reduces format quality."
+          },
+          "total": 11
+        },
+        {
+          "message": "wifi done 600",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"wifi\",\n  \"amount\": 600,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are accurate and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "got the water bill today 350rs",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"water\",\n  \"amount\": 350,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are all correct and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "yes that's right, dad cleared it",
+          "output": "```json\n{\n  \"message_type\": \"confirm\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": \"dad\"\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The payer 'dad' is correctly identified and confirm type is reasonable, but the output is wrapped in markdown fences and the context of 'cleared' (likely meaning paid/settled) is partially captured without bill or amount details that weren't provided."
+          },
+          "total": 10
+        },
+        {
+          "message": "gas refill 1100, I'll pay tomorrow",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"gas refill\",\n  \"amount\": 1100,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The core bill details are captured but the output misses the deferred payment intent ('pay tomorrow') and has no due_date or payment_timing field; also wrapped in markdown fences which hurts format score."
+          },
+          "total": 9
+        },
+        {
+          "message": "electricity 800 ok",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 800,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted values are correct and relevant to the message, but the output is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "ok",
+          "output": "```json\n{\n  \"message_type\": \"noise\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The output correctly identifies the message as noise with null fields, but is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "1200",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": null,\n  \"amount\": 1200,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The amount field is correctly captured as 1200, but the output is wrapped in markdown code fences and the message is too ambiguous to fully evaluate accuracy of other fields; the structure is otherwise reasonable but the fences hurt the format score."
+          },
+          "total": 9
+        },
+        {
+          "message": "wifi",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": \"wifi\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The output attempts to parse 'wifi' as a bill entry which is partially reasonable, but the JSON is wrapped in markdown code fences which violates format requirements, and the interpretation is ambiguous given the minimal input."
+          },
+          "total": 9
+        },
+        {
+          "message": "I think we already paid that one no?",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 5,
+            "relevance": 5,
+            "format": 3,
+            "reasoning": "The extracted fields are correctly identified as null/ambiguous for this vague message, but the JSON is wrapped in markdown code fences which violates the format requirement."
+          },
+          "total": 13
+        },
+        {
+          "message": "yes confirmed wifi paid",
+          "output": "```json\n{\n  \"message_type\": \"confirm\",\n  \"bill_name\": \"wifi\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 4,
+            "format": 3,
+            "reasoning": "The key fields (message_type as 'confirm' and bill_name as 'wifi') are correctly extracted, but the output is wrapped in markdown code fences which reduces format score."
+          },
+          "total": 11
+        },
+        {
+          "message": "new electricity bill 2200, due 30th",
+          "output": "```json\n{\n  \"message_type\": \"bill_announcement\",\n  \"bill_name\": \"electricity\",\n  \"amount\": 2200,\n  \"currency\": \"INR\",\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 2,
+            "reasoning": "The output captures the bill name and amount correctly but omits the due date (30th), assumes INR currency without basis, and is wrapped in markdown code fences making it invalid per format requirements."
+          },
+          "total": 8
+        },
+        {
+          "message": "I cleared the internet 750",
+          "output": "```json\n{\n  \"message_type\": \"payment_claim\",\n  \"bill_name\": \"internet\",\n  \"amount\": 750,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 4,
+            "format": 3,
+            "reasoning": "The key fields (bill_name, amount) are correctly extracted, but the output is wrapped in markdown code fences which reduces format score, and 'message_type' as 'payment_claim' is a reasonable interpretation though 'cleared' typically implies payment confirmation."
+          },
+          "total": 11
+        },
+        {
+          "message": "water bill",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": \"water\",\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 4,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The output correctly identifies 'water' as the bill name and marks other fields as null, but the JSON is wrapped in markdown code fences and the schema/fields used don't clearly match any obvious expected output format for such a vague input."
+          },
+          "total": 10
+        },
+        {
+          "message": "paid",
+          "output": "```json\n{\n  \"message_type\": \"ambiguous\",\n  \"bill_name\": null,\n  \"amount\": null,\n  \"currency\": null,\n  \"payer\": null\n}\n```",
+          "scores": {
+            "accuracy": 3,
+            "relevance": 3,
+            "format": 3,
+            "reasoning": "The output attempts to parse 'paid' as a payment message with reasonable null fields, but the JSON is wrapped in markdown code fences which violates format requirements, and classifying it as 'ambiguous' rather than something more specific is debatable."
+          },
+          "total": 9
+        }
+      ]
+    }
+  },
+  "verdict": "clear_winner",
+  "winner": "candidate_xml",
+  "margin": 4
+}
