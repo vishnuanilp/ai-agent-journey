@@ -1,0 +1,13 @@
+[
+  "test_llm.py::test_call_llm_wraps_the_answer",
+  "test_models.py::test_bad_priority_is_rejected",
+  "test_models.py::test_good_request_is_accepted",
+  "test_models.py::test_good_request_with_fixture",
+  "test_models.py::test_invalid_priorities_rejected[HIGH]",
+  "test_models.py::test_invalid_priorities_rejected[]",
+  "test_models.py::test_invalid_priorities_rejected[banana]",
+  "test_models.py::test_invalid_priorities_rejected[urgent]",
+  "test_models.py::test_valid_priorities_accepted[high]",
+  "test_models.py::test_valid_priorities_accepted[low]",
+  "test_models.py::test_valid_priorities_accepted[normal]"
+]
