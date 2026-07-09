@@ -2,7 +2,13 @@ from fastapi import FastAPI, HTTPException, Depends, BackgroundTasks, File, Uplo
 from models import BusinessRequest, BusinessResponse
 from fastapi.middleware.cors import CORSMiddleware
 import time
+import logging
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 
 app = FastAPI()
@@ -28,6 +34,7 @@ def health_check():
 
 @app.post("/message", response_model=BusinessResponse)
 def handle_message(request: BusinessRequest):
+    logger.info(f"Request received: {request.priority}")
     if request.business_type not in ["clinic", "shop", "hotel"]:
         raise HTTPException(status_code=400, detail="Unknown business type")
     return BusinessResponse(
