@@ -2,7 +2,14 @@ from fastapi import FastAPI, HTTPException, Depends, BackgroundTasks, File, Uplo
 from models import BusinessRequest, BusinessResponse
 from fastapi.middleware.cors import CORSMiddleware
 import time
+import os
+import sentry_sdk
+from dotenv import load_dotenv
+
+load_dotenv()
+sentry_sdk.init(dsn=os.getenv("SENTRY_DSN"))
 import logging
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -70,3 +77,7 @@ async def upload_file(file: UploadFile = File(...)):
     return {"filename": file.filename,
             "content_type": file.content_type,
             "size_bytes": len(contents)}
+
+@app.get("/sentry-test")
+def trigger_error():
+    division_by_zero = 1 / 0
