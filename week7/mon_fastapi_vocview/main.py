@@ -32,7 +32,7 @@ async def log_requests(request, call_next):
     start = time.time()
     response = await call_next(request)
     duration = time.time() - start
-    print(f"{request.method} {request.url.path} took {duration:.3f}s")
+    logger.info(f"{request.method} {request.url.path} took {duration:.3f}s")
     return response
 
 @app.get("/")
@@ -64,7 +64,7 @@ def take_order(pad: str = Depends(get_pad)):
     return {"waiter_has": pad}
 
 def send_email(customer_id: int):
-    print(f"Sending confirmation email to customer {customer_id}...")
+    logger.info(f"Sending confirmation email to customer {customer_id}...")
 
 @app.get("/notify/{customer_id}")
 def notify(customer_id: int, background_tasks: BackgroundTasks):
@@ -78,6 +78,3 @@ async def upload_file(file: UploadFile = File(...)):
             "content_type": file.content_type,
             "size_bytes": len(contents)}
 
-@app.get("/sentry-test")
-def trigger_error():
-    division_by_zero = 1 / 0
