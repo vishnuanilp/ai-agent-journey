@@ -9,7 +9,10 @@ import sentry_sdk
 import os
 
 load_dotenv()
-sentry_sdk.init(dsn=os.getenv("SENTRY_DSN"))
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN"),
+    environment=os.getenv("ENVIRONMENT", "development"),
+)
 
 logging.basicConfig(
     level=logging.INFO,
