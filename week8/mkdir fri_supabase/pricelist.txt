@@ -1,0 +1,3 @@
+Consultation: 500
+X-Ray: 1200
+Blood Test: 300
