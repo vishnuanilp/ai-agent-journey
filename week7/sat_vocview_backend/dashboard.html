@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>Vocview — Live Questions</h2>
+  <input id="email" placeholder="email">
+  <input id="password" type="password" placeholder="password">
+  <button id="go">Sign in</button>
+  <ul id="list"></ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://wrbqhdhkfsxdesvfxhxo.supabase.co";
+    const KEY = "sb_publishable_VbP98owUSy-aB0OK80lLeA_RKqhqJPg";
+    const client = supabase.createClient(SUPABASE_URL, KEY);
+
+    const list = document.getElementById("list");
+
+    function add(row) {
+      const li = document.createElement("li");
+      li.textContent = row.question;
+      list.prepend(li);
+    }
+
+    document.getElementById("go").onclick = async () => {
+      await client.auth.signInWithPassword({
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+      });
+      const { data } = await client.from("conversations").select("*");
+      data.forEach(add);
+      await client.realtime.setAuth();
+      client
+        .channel("dash")
+        .on("postgres_changes",
+            { event: "INSERT", schema: "public", table: "conversations" },
+            (payload) => add(payload.new))
+        .subscribe();
+    };
+  </script>
+</body>
+</html>

@@ -7,7 +7,13 @@ from dotenv import load_dotenv
 load_dotenv()
 client = AsyncAnthropic()
 openai_client = AsyncOpenAI()
-gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+gemini_client = None
+
+def get_gemini_client():
+    global gemini_client
+    if gemini_client is None:
+        gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    return gemini_client
 
 async def call_llm(prompt, provider):
     if provider == "claude":
