@@ -2,3 +2,12 @@ venv/
 .env
 __pycache__/
 *.pyc
+
+# vector stores — regenerable, large, not source
+chroma_store/
+chroma_tue/
+chroma_wed/
+chroma_fri/
+
+# personal documents — must never reach a public repo
+receipt.pdf
