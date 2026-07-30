@@ -8,3 +8,4 @@ sentry-sdk==2.19.2
 pytest==8.3.4
 pytest-asyncio==0.25.0
 supabase==2.31.0
+chromadb==1.5.9

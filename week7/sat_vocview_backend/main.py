@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import logging
 import time
 import os
+import rag
 from router import route
 from models import BusinessRequest
 from fastapi.responses import StreamingResponse
@@ -57,6 +58,20 @@ async def message(request: BusinessRequest):
 async def stream(message: str, business_type: str = "salon"):
     owner_id = await get_owner_id()
     row_id = await save_question(owner_id, message, business_type)
+
+@app.on_event("startup")
+async def load_docs():
+    try:
+        n = rag.ingest("market_policy.txt", "market")
+        logger.info(f"ingested {n} chunks")
+    except Exception as e:
+        logger.info(f"ingest skipped: {e}")
+
+@app.get("/ask")
+async def ask(message: str, business: str = "market"):
+    text, hits = rag.answer(message, business)
+    return {"answer": text,
+            "sources": [{"id": i, "distance": round(d, 3)} for i, _, d in hits]}
 
     async def event_stream():
         collected = []
