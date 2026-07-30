@@ -3,10 +3,17 @@ from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+_client = None
+
+def get_client():
+    global _client
+    if _client is None:
+        _client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    return _client
 
 async def stream_tokens(prompt: str):
-    response = await client.chat.completions.create(
+    response = await get_client().chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}],
         stream=True,

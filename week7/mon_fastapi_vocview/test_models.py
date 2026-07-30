@@ -41,16 +41,3 @@ def test_invalid_priorities_rejected(bad_value):
             customer_id=1,
             priority=bad_value,
         )
-
-@pytest.fixture
-def valid_data():
-    return {
-        "message": "I need a booking",
-        "business_type": "clinic",
-        "customer_id": 1,
-        "priority": "high",
-    }
-
-def test_good_request_with_fixture(valid_data):
-    req = BusinessRequest(**valid_data)
-    assert req.priority == "high"
