@@ -1,0 +1,6 @@
+path: D:/vocview/ai-agent-journey/week11/thu_train/ds
+train: train/images
+val: val/images
+
+names:
+  0: door

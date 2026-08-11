@@ -10,3 +10,15 @@ chroma_wed/
 chroma_fri/
 # personal documents - must never reach a public repo
 receipt.pdf
+
+# week 11 - training output and weights
+runs/
+*.pt
+labels.cache
+# datasets and media - regenerable, large
+week11/thu_train/images/
+week11/thu_train/labels/
+week11/thu_train/ds/
+*.mp4
+*.jpg
+*.png
