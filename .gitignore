@@ -22,3 +22,7 @@ week11/thu_train/ds/
 *.mp4
 *.jpg
 *.png
+
+# audio - regenerable output, except the shipped samples
+*.wav
+!week13/samples/*.wav
