@@ -1,0 +1,11 @@
+received_utc,sender,type
+2026-09-14T08:10:00Z,LinkedIn,alert
+2026-09-14T09:40:00Z,Indeed,application
+2026-09-15T07:05:00Z,LinkedIn,alert
+2026-09-15T13:20:00Z,Naukri,application
+2026-09-15T22:30:00Z,LinkedIn,rejection
+2026-09-16T10:00:00Z,Welcome to the Jungle,interview
+2026-09-16T15:45:00Z,LinkedIn,alert
+2026-09-17T08:30:00Z,Indeed,rejection
+2026-09-18T11:15:00Z,Naukri,alert
+2026-09-18T17:10:00Z,LinkedIn,alert

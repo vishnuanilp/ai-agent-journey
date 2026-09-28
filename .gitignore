@@ -26,3 +26,13 @@ week11/thu_train/ds/
 # audio - regenerable output, except the shipped samples
 *.wav
 !week13/samples/*.wav
+
+# google oauth secrets - never commit
+client_secret*.json
+credentials.json
+token.json
+token*.pickle
+
+body.txt
+digest.txt
+jobmail.csv
