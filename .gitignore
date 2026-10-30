@@ -36,3 +36,8 @@ token*.pickle
 body.txt
 digest.txt
 jobmail.csv
+
+# langgraph checkpoints - guest conversations, never commit
+*.db
+*.db-wal
+*.db-shm
