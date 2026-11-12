@@ -1,0 +1,28 @@
+﻿import sqlite3
+from pathlib import Path
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+from classify_mem import classify_mem_box
+from boxes import chat, error_box, route_intent
+from hitl_boxes import route_ok
+from room_slots import BState, route_start, route_extract, ask
+from room_extract import extract
+from room_book import approve, book, cancel
+from research_mem import research
+from answer_graph import responder
+from remember import remember
+g = StateGraph(BState)
+for n, f in [("classify", classify_mem_box), ("research", research), ("respond", responder), ("extract", extract), ("ask", ask),
+             ("approve", approve), ("book", book), ("cancel", cancel), ("chat", chat), ("error_box", error_box), ("remember", remember)]:
+    g.add_node(n, f)
+g.add_conditional_edges(START, route_start, {"extract": "extract", "classify": "classify"})
+g.add_conditional_edges("classify", route_intent,
+    {"question": "research", "action": "extract", "chitchat": "chat", "error": "error_box"})
+g.add_edge("research", "respond")
+g.add_conditional_edges("extract", route_extract, {"classify": "classify", "ask": "ask", "approve": "approve", "cancel": "cancel"})
+g.add_conditional_edges("approve", route_ok, {"book": "book", "cancel": "cancel"})
+for n in ["respond", "ask", "book", "cancel", "chat", "error_box"]:
+    g.add_edge(n, "remember")
+g.add_edge("remember", END)
+DB = Path(__file__).parent / "vocbook.db"
+app = g.compile(checkpointer=SqliteSaver(sqlite3.connect(DB, check_same_thread=False)))
